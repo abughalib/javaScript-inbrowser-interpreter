@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
+import { fetchPlugin } from "./plugins/fetch-plugin";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -10,7 +11,7 @@ const App = () => {
   const startService = async () => {
     await esbuild.initialize({
       worker: true,
-      wasmURL: "./esbuild.wasm",
+      wasmURL: "./esbuild.wasm" /*http://unpkg.com/esbuild-wasm/esbuild.wasm*/,
     });
   };
 
@@ -23,7 +24,7 @@ const App = () => {
       entryPoints: ["index.js"],
       bundle: true,
       write: false,
-      plugins: [unpkgPathPlugin(input)],
+      plugins: [unpkgPathPlugin(), fetchPlugin(input)],
       define: {
         "process.env.NODE_ENV": '"production"',
         global: "window",
