@@ -1,5 +1,7 @@
 import * as esbuild from "esbuild-wasm";
 
+const UNPKG_PATH = "https://unpkg.com";
+
 export const unpkgPathPlugin = () => {
   return {
     name: "unpkg-path-plugin",
@@ -8,17 +10,22 @@ export const unpkgPathPlugin = () => {
         console.log("onResolve", args);
         if (args.path === "index.js") {
           return { path: args.path, namespace: "a" };
-        }  // else if (args.path === "tiny-test-pkg") {
-        //   return {
-        //     namespace: "a",
-        //     path: "https://unpkg.com/tiny-test-pkg@1.0.0/index.js",
-        //   };
-        // }
+        }
+
+        if (args.path.includes("./") || args.path.includes("../")) {
+          return {
+            namespace: "a",
+            path: new URL(
+              args.path,
+              UNPKG_PATH + args.resolveDir + "/"
+            ).href,
+          };
+        }
 
         return {
           namespace: "a",
-          path: `https://unpkg.com/${args.path}`,
-        }
+          path: `${UNPKG_PATH}/${args.path}`,
+        };
       });
 
       build.onLoad({ filter: /.*/ }, async (args: any) => {
@@ -28,8 +35,10 @@ export const unpkgPathPlugin = () => {
           return {
             loader: "jsx",
             contents: `
-              const message = require('medium-test-pkg');
-              console.log(message);
+              import React from 'react';
+              import ReactDOM from 'react-dom';
+
+              console.log(React, ReactDOM);
             `,
           };
         }
@@ -46,6 +55,7 @@ export const unpkgPathPlugin = () => {
         return {
           loader: "jsx",
           contents: contents,
+          resolveDir: new URL("./", resp.url).pathname,
         };
       });
     },
