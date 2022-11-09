@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
@@ -7,6 +7,7 @@ import { fetchPlugin } from "./plugins/fetch-plugin";
 const App = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const iframe = useRef<any>();
 
   const startService = async () => {
     await esbuild.initialize({
@@ -18,6 +19,20 @@ const App = () => {
   useEffect(() => {
     startService();
   }, []);
+
+  let htmlContent = `
+    <html>
+        <head></head>
+      <body>
+        <div id="root">Hi There!</div>
+        <script>
+          window.addEventListener('message', (event) => {
+            eval(event.data);
+          })
+        </script>
+      </body>
+    </html>
+  `;
 
   const onClick = async () => {
     let result = await esbuild.build({
@@ -32,6 +47,8 @@ const App = () => {
     });
 
     setCode(result.outputFiles[0].text);
+
+    iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
   };
 
   return (
@@ -42,7 +59,13 @@ const App = () => {
           Submit
         </button>
       </div>
-      <pre>{code}</pre>
+      {/* <pre>{code}</pre> */}
+      <iframe
+        ref={iframe}
+        sandbox="allow-scripts"
+        title="result"
+        srcDoc={htmlContent}
+      ></iframe>
     </div>
   );
 };
