@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
@@ -53,7 +53,7 @@ const App = () => {
 
   return (
     <div>
-      <textarea onChange={(e) => setInput(e.target.value)}></textarea>
+      <textarea onChange={(e) => setInput(e.target.value)} placeholder="Code here..."></textarea>
       <div>
         <button type="button" onClick={onClick}>
           Submit
