@@ -30,6 +30,13 @@ const App = () => {
             eval(event.data);
           })
         </script>
+        <script>
+          console = {
+            log(message) {
+              document.getElementById('root').innerHTML = message;
+            }
+          }
+        </script>
       </body>
     </html>
   `;
@@ -59,7 +66,6 @@ const App = () => {
           Submit
         </button>
       </div>
-      {/* <pre>{code}</pre> */}
       <iframe
         ref={iframe}
         sandbox="allow-scripts"
