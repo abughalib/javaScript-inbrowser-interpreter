@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import * as esbuild from "esbuild-wasm";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
+import CodeEditor from "./components/code-editor";
 
 const App = () => {
   const [input, setInput] = useState("");
-  const [code, setCode] = useState("");
   const iframe = useRef<any>();
 
   const startService = async () => {
@@ -24,16 +24,30 @@ const App = () => {
     <html>
         <head></head>
       <body>
-        <div id="root">Hi There!</div>
+        <div id="root"><i>Your output would be here...</i></div>
         <script>
           window.addEventListener('message', (event) => {
-            eval(event.data);
+            try {
+              eval(event.data);
+            } catch (err) {
+              let message = "<div style='font-size: 20px;'>Runtime Error</div>"+err;
+              console.error(message);
+              throw err;
+            }
           })
         </script>
         <script>
           console = {
             log(message) {
               document.getElementById('root').innerHTML = message;
+            },
+            info(message) {
+              document.getElementById('root').innerHTML = message;
+              document.getElementById('root').style.color = 'orange';
+            },
+            error(message) {
+              document.getElementById('root').innerHTML = message;
+              document.getElementById('root').style.color = 'red';
             }
           }
         </script>
@@ -42,6 +56,8 @@ const App = () => {
   `;
 
   const onClick = async () => {
+    iframe.current.srcdoc = htmlContent;
+
     let result = await esbuild.build({
       entryPoints: ["index.js"],
       bundle: true,
@@ -53,18 +69,20 @@ const App = () => {
       },
     });
 
-    setCode(result.outputFiles[0].text);
-
+    // setCode(result.outputFiles[0].text);
     iframe.current.contentWindow.postMessage(result.outputFiles[0].text, "*");
   };
 
   return (
     <div>
-      <textarea onChange={(e) => setInput(e.target.value)} placeholder="Code here..."></textarea>
       <div>
-        <button type="button" onClick={onClick}>
-          Submit
-        </button>
+        <CodeEditor
+          onChange={(value) => {
+            setInput(value || "");
+            onClick();
+          }}
+          initialValue='console.log("Hi There");'
+        />
       </div>
       <iframe
         ref={iframe}
