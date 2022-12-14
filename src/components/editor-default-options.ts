@@ -5,7 +5,10 @@ export const editorOptions: monaco.editor.IStandaloneEditorConstructionOptions =
   minimap: { enabled: false },
   folding: false,
   lineNumbersMinChars: 3,
-  fontSize: 16,
+  fontSize: 20,
   scrollBeyondLastLine: false,
   automaticLayout: true,
+  tabSize: 2,
+  formatOnPaste: true,
+  formatOnType: true,
 };
