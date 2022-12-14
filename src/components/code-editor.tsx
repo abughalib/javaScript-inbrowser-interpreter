@@ -15,6 +15,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const onEditorDidMount: OnMount = (editor, _monaco) => {
     editorRef.current = editor;
+
   };
 
   const onFormatClick = () => {
