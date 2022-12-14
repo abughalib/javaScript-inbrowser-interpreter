@@ -1,5 +1,6 @@
 .editor-wrapper {
   position: relative;
+  width: 100%;
   height: 100%;
 }
 
@@ -14,4 +15,11 @@
 
 .editor-wrapper:hover .button-format {
   opacity: 1;
+}
+
+.code-editor {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
 }
