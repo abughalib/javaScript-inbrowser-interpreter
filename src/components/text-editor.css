@@ -1,0 +1,46 @@
+.w-md-editor ul {
+  line-height: unset;
+}
+
+.w-md-editor .title {
+  line-height: unset;
+  font-size: unset;
+  font-weight: unset;
+}
+
+.number {
+  display: unset;
+  font-size: unset;
+  background: unset;
+  padding: unset;
+  vertical-align: unset;
+  margin: unset;
+  min-width: unset;
+  align-items: unset;
+}
+
+.text-editor .w-md-editor-bar svg {
+  display: none;
+}
+
+.text-editor .w-md-editor-bar {
+  height: 10px;
+  width: 100%;
+  cursor: row-resize;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
+  background-color: #37414b;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  position: absolute;
+}
+
+.card {
+  background-color: #161616;
+}
+
+.card-content div {
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
