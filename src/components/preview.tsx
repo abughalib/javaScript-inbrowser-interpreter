@@ -7,9 +7,11 @@ interface PreviewProps {
 
 let htmlContent = `
     <html>
-        <head></head>
+        <head>
+          <style> html {background-color: white; } </style>
+        </head>
       <body>
-        <div id="root"><i>Your output would be here...</i></div>
+        <div id="root"><i>Your output would be here...</i></div> 
         <script>
           window.addEventListener('message', (event) => {
             try {
@@ -50,12 +52,12 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
   return (
     <div className="preview-wrapper">
       <iframe
-      className="preview-frame"
-      ref={iframe}
-      sandbox="allow-scripts"
-      title="result"
-      srcDoc={htmlContent}
-    />
+        className="preview-frame"
+        ref={iframe}
+        sandbox="allow-scripts"
+        title="result"
+        srcDoc={htmlContent}
+      />
     </div>
   );
 };
