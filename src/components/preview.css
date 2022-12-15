@@ -19,3 +19,19 @@
   height: 100%;
   width: 100%;
 }
+
+.preview-error {
+  position: absolute;
+  top: 35px;
+  left: 15px;
+  color: red;
+}
+
+.preview-error h1 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.preview-error .error-message {
+  font-size: 15px;
+}

@@ -3,6 +3,7 @@ import "./preview.css";
 
 interface PreviewProps {
   code: string;
+  error: string;
 }
 
 let htmlContent = `
@@ -13,13 +14,20 @@ let htmlContent = `
       <body>
         <div id="root"><i>Your output would be here...</i></div> 
         <script>
+          const handleError = (err) => {
+            let message = "<div style='font-size: 20px;'>Runtime Error</div><br/>"+err;
+            console.error(message);
+            throw err;
+          }
+          window.addEventListener('error', (event) => {
+            event.preventDefault();
+            handleError(event.error);
+          });
           window.addEventListener('message', (event) => {
             try {
               eval(event.data);
             } catch (err) {
-              let message = "<div style='font-size: 20px;'>Runtime Error</div>"+err;
-              console.error(message);
-              throw err;
+              handleError(err);
             }
           })
         </script>
@@ -42,11 +50,14 @@ let htmlContent = `
     </html>
   `;
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, error }) => {
   const iframe = useRef<any>();
 
   useEffect(() => {
-    iframe.current.contentWindow.postMessage(code, "*");
+    iframe.current.srcdoc = htmlContent;
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(code, "*");
+    }, 50);
   }, [code]);
 
   return (
@@ -58,6 +69,12 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
         title="result"
         srcDoc={htmlContent}
       />
+      {error && (
+        <div className="preview-error">
+          <h1>Build Error</h1>
+          <div className="error-message">{error}</div>
+        </div>
+      )}
     </div>
   );
 };
