@@ -2,12 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "bulmaswatch/cyborg/bulmaswatch.min.css";
 import TextEditor from "./components/text-editor";
+import { Provider } from "react-redux";
+import { store } from "./state/store";
 
 const App = () => {
   return (
-    <div>
-      <TextEditor />
-    </div>
+    <Provider store={store}>
+      <div>
+        <TextEditor />
+      </div>
+    </Provider>
   );
 };
 
