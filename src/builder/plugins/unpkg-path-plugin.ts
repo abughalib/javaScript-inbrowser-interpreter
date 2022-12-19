@@ -19,7 +19,6 @@ export const unpkgPathPlugin = () => {
       });
 
       build.onResolve({ filter: /.*/ }, async (args: esbuild.OnResolveArgs) => {
-        console.log("onResolve", args);
         return {
           namespace: "a",
           path: `${UNPKG_PATH}/${args.path}`,
