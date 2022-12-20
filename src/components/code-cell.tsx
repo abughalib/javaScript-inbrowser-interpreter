@@ -29,7 +29,14 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
 
   return (
     <Resizable direction="vertical">
-      <div className="code-editor">
+      <div
+        style={{
+          height: "calc(100%-10px);",
+          display: "flex",
+          flexDirection: "row",
+        }}
+        className="code-editor"
+      >
         <Resizable direction="horizontal">
           <CodeEditor
             onChange={(value) => {
