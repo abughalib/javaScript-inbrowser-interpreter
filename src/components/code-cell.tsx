@@ -31,12 +31,10 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             initialValue={cell.content}
           />
         </Resizable>
-        <div className={"progress-wrapper"}>
+        <div>
           {!bundle ? (
-            <div className={"progress-cover"}>
-              <progress className={"progress is-small is-primary"} max="100">
-                Loading
-              </progress>
+            <div className="code-preview-iframe">
+              <Preview code="" error="" />
             </div>
           ) : (
             <Preview code={bundle.code} error={bundle.err} />

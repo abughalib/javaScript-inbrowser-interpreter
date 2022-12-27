@@ -21,7 +21,6 @@ const bundlerMiddleware: Middleware =
       return;
     }
 
-    console.log(action);
     clearTimeout(timer);
     timer = setTimeout(async () => {
       const result = await bundler(action.payload.content);
