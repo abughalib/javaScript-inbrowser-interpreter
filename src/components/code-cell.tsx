@@ -4,6 +4,7 @@ import Resizable from "./resizable";
 import { Cell } from "../state/cell";
 import { useActions } from "./hooks/use-actions";
 import { useTypedSelector } from "./hooks/use-typed-selector";
+import './code-cell.css';
 
 interface CodeCellProps {
   cell: Cell;
@@ -31,7 +32,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             initialValue={cell.content}
           />
         </Resizable>
-        <div>
+        <div className="code-preview-section">
           {!bundle ? (
             <div className="code-preview-iframe">
               <Preview code="" error="" />
